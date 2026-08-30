@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block h1 %}Ajouter une Category{% endblock %}
+
+{% block body %}
+
+    <a class="btn btn-primary" href="{{ path('app_category_index') }}">Gestion des catégories</a>
+
+    {{ include('category/_form.html.twig') }}
+
+    
+{% endblock %}

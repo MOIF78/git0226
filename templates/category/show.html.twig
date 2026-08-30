@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block h1 %}Fiche "{{ category.title|capitalize}}"{% endblock %}
+
+{% block body %}
+
+    <a class="btn btn-primary" href="{{ path('app_category_index') }}">Gestion des catégories</a>
+
+    <table class="table table-striped table-bordered  table-hover text-center mt-3">
+
+    
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ category.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ category.title }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-striped table-bordered  table-hover text-center mt-3">
+         <thead class="table-primary">
+        <tr>
+            <th>ID</th>
+            <th>Titre</th>
+            <th>Prix(€)</th>
+            <th>Actions</th>
+    </tr>   
+    </thead>
+    
+    
+    <tbody>
+     
+        {% for product in category.products %}
+
+    {# <pre>
+        {{ dump(products) }}
+    </pre>  #}
+        
+           <tr>
+                <td>{{ product.id }}</td>
+                <td>{{ product.title|capitalize }}</td>
+                <td>{{ product.price }} €</td>
+                    
+                     
+
+                <td>
+                    <a href="{{ path('app_product_show', {'id' : product.id }) }}" class="text-decoration-none">
+                        {{ ux_icon('flowbite:file-lines-outline', {class: 'text-primary icon25'}) }}
+                    </a>
+
+
+                    <a href="{{ path('app_product_edit', {'id' : product.id }) }}" class="text-decoration-none">
+                       {{ ux_icon('flowbite:edit-solid', {class: 'text-gray icon25'}) }} 
+                    </a> 
+
+
+                    <form 
+                        action="{{ path('app_product_delete', {'id' : product.id }) }}"
+                        method="POST"
+                        class="d-inline-block"
+                        onsubmit="return confirm('Etês vous sûr de vouloir supprimer ce produit ?')"
+                    >
+                        <button type= "submit" class="btnReset">
+                            {{ ux_icon('flowbite:trash-bin-solid', {class: 'text-danger icon25'}) }} 
+                        </button>
+                    </form> 
+                
+                </td>
+            </tr> 
+
+
+            {% else %}
+            <tr>
+                <td colspan="4">Aucun résultat</td>
+            </tr>
+        {% endfor %}
+        
+    
+            </tbody>
+    
+    
+        </table>
+    
+{% endblock %}

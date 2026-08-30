@@ -1,0 +1,66 @@
+{% extends "base.html.twig" %}
+
+{% block h1 %}Ajouter un produit{% endblock %}
+
+{% block body %}
+
+    <a class="btn btn-dark" href="{{ path('app_product_index') }}">Gestion des Produits</a>
+
+
+    {# form action="">
+    
+        <input type="text">
+        <select name="" id=""></select>
+        <textarea name="" id=""></textarea>
+
+    </from> #}
+
+    {# 
+        Deux méthodes permtent d'afficher un formulaire symfony:
+        La foction twig form(), appelle intégralement le formulaire de la balise form ouvrante à la balise form fermante 
+         ==> {{ form_formProduct() }}
+
+        Ou bien:
+        la syntaxe twig: parent-enfant
+                form.element
+
+        form_row() regroupe
+        form_start form_end
+     form_row() regroupe form_label() + form_errors() + form_weidgt() + form_help() 
+
+    
+     #}
+
+
+<div class="w-75 mx-auto">
+     {{ form_start(formProduct) }}  {# ouverture de la balise form #} 
+
+     {# form_row() regroupe form_label() + form_errors() + form_weidgt() + form_help()  #}
+
+        <div class="row">
+            <div class="col">
+                {{ form_row(formProduct.title) }}
+            </div>
+
+            <div class="col">
+                {{ form_row(formProduct.price) }}
+            </div>
+        </div>
+
+
+            {{ form_row(formProduct.description) }}
+            {# {{ form_widget(formProduct.description) }}
+            {{ form_label(formProduct.description) }}
+            {{ form_help(formProduct.description) }}
+            {{ form_errors(formProduct.description) }} #}
+
+
+            {{ form_rest(formProduct) }}
+
+            <input type="submit" value="Ajouter le produit" class="btn btn-dark w-100 mt-3">
+
+        {{ form_end(formProduct) }} {# fermeture de la balise form #} 
+    </div>
+
+
+{% endblock %}

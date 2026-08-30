@@ -1,0 +1,168 @@
+{% extends "base.html.twig" %}
+
+{% block h1 %}Gestion des Produits ({{ products|length }}){% endblock %}
+
+{% block body %}
+
+<a class="btn btn-primary" href="{{ path('app_product_new') }}">Ajouter un produit</a>
+    {# <pre>
+        {{ dump(products) }}
+    </pre>  #}
+
+{# si le tableau products contient quelque chose #}
+{% if products %}  
+    <table class="table table-striped table-bordered  table-hover text-center mt-3">
+    <thead class="table-primary">
+        <tr>
+            <th>ID</th>
+            <th>Titre</th>
+            <th>Prix(€)</th>
+            <th>Description</th>
+            <th>Catégorie</th>
+            <th class="text-center">Actions</th>
+
+            
+        </tr>   
+    </thead>
+    
+    
+    <tbody>
+        {# 
+            product est tableau d'objets issus de la class Product
+            a chaque tour de boucles, l'objet est injecté dans le "terme" product
+
+            att: on n'affiche pas un objet mais ce qu'il y a dans l'objet
+            Ex: des propriétés
+
+            syntaxe : objet.propriété
+            relation 
+
+            objet.objet.proprety
+
+         #}
+        {% for product in products %}
+
+    {# <pre>
+        {{ dump(products) }}
+    </pre>  #}
+        
+           <tr>
+                <td>{{ product.id }}</td>
+                <td>{{ product.title|capitalize }}</td>
+                <td>{{ product.price }}</td>
+                <td>
+                    {% if product.description %}
+                        {% if product.description|length > 20 %}
+                            {{ product.description|slice (0,17) }}...
+                        {% else %}
+                            {{ product.description|nl2br }}
+                        {% endif %}
+                    {% else %} 
+                            {{ ux_icon('lucide:circle-off', {class: 'text-danger icon25'}) }}  
+                        {% endif %}
+                
+                </td>
+
+                
+                    {# <pre>
+                        {{ dump(products) }}
+                    </pre>  #}
+        
+                     {# {{ product.category.title }} #} 
+
+                <td>
+
+                    {# {% if product.category is not null %}
+
+                        {{ product.category.title }}
+
+                    {% else %}
+
+                        <span class='text-danger'>Aucune catégorie</span>
+
+                    {% endif %}
+
+                </td>
+                #}
+
+                {% if product.category %}
+
+                        {{ product.category.title }}
+
+                    {% else %}
+
+                        {{ ux_icon('lucide:cercle-off', {class: 'text-danger icon25'}) }}
+
+                    {% endif %}
+
+                </td>
+
+
+                
+
+                <td>
+                    <a href="{{ path('app_product_show', {'id' : product.id }) }}" class="text-decoration-none">
+                        {{ ux_icon('flowbite:file-lines-outline', {class: 'primary icon25'}) }}
+                    </a>
+
+                    <a href="{{ path('app_product_edit', {'id' : product.id }) }}" class="text-decoration-none">
+                       {{ ux_icon('flowbite:edit-solid', {class: 'text-gray icon25'}) }} 
+                    </a> 
+
+                    {# {{ ux_icon('user-profile', {class: 'w-4 h-4'}) }} #}
+
+                  {#    <a 
+                     href="{{ path('app_product_delete', {'id' : product.id }) }}" 
+                    class="text-decoration-none"
+                    onclick="return confirm('Etês vous sûr de vouloir supprimer ce produit ?')"
+                    >
+                      {{ ux_icon('flowbite:trash-bin-solid', {class: 'text-gray icon25'}) }}  
+                    </a>  #}
+
+                    <form 
+                        action="{{ path('app_product_delete', {'id' : product.id }) }}"
+                        method="POST"
+                        class="d-inline-block"
+                        onsubmit="return confirm('Etês vous sûr de vouloir supprimer ce produit ?')"
+                    >
+                        <button type= "submit" class="btnReset">
+                            {{ ux_icon('flowbite:trash-bin-solid', {class: 'text-primary icon25'}) }}>
+                        </button>
+                    </form> 
+                
+                </td>
+            </tr> 
+        {% endfor %}
+    
+    </tbody>
+    
+    
+    </table>
+    
+
+{% else %}
+    <h4 class="text-info text-center">Aucun résultat</h4>
+    
+{% endif %}
+
+
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

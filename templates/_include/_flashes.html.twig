@@ -1,0 +1,26 @@
+ {# 
+    En twig, il existe une variable d'environnement qui s'appelle "app" de type arry,
+    on y retriuve de nombreuses infos sur l'envirenement notament il ya des flashes
+  #}
+
+  {# <pre>
+    {{ dump(app.flashes) }}
+  </pre> #}
+ 
+ {% for notification in app.flashes('success') %}
+        <div class="alert alert-success w-50 mx-auto txt-center alert alert-success">
+            {{notification}}
+        </div>
+ {% endfor %}
+
+ {% for notification in app.flashes('warning') %}
+        <div class="alert alert-warning w-50 mx-auto txt-center alert alert-warning">
+            {{notification}}
+        </div>
+ {% endfor %}
+
+  {% for notification in app.flashes('error') %}
+        <div class="alert alert-danger w-50 mx-auto txt-center alert alert-danger">
+            {{notification}}
+        </div>
+ {% endfor %} 

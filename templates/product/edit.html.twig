@@ -1,0 +1,42 @@
+{% extends "base.html.twig" %}
+
+{% block h1 %}Modifier le produit "{{ product.title|capitalize }}"{% endblock %}
+
+{% block body %}
+    
+<a class="btn btn-dark" href="{{ path('app_product_index') }}">Gestion des Produits</a>
+
+<div class="w-75 mx-auto">
+     {{ form_start(formProduct) }}  {# ouverture de la balise form #} 
+
+     {# form_row() regroupe form_label() + form_errors() + form_weidgt() + form_help()  #}
+
+        <div class="row">
+            <div class="col">
+                {{ form_row(formProduct.title) }}
+            </div>
+
+            <div class="col">
+                {{ form_row(formProduct.price) }}
+            </div>
+        </div>
+
+        {{ form_row(formProduct.description) }}
+        {# {{ form_widget(formProduct.description) }}
+        {{ form_label(formProduct.description) }}
+        {{ form_help(formProduct.description) }}
+        {{ form_errors(formProduct.description) }} #}
+
+
+            {{ form_rest(formProduct) }}
+
+            <input type="submit" value="Modifier le produit" class="btn btn-dark w-100 mt-3">
+
+        {{ form_end(formProduct) }} {# fermeture de la balise form #} 
+    </div>
+     
+
+
+
+
+{% endblock %}
