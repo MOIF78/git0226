@@ -19,6 +19,7 @@
             <th>Prix(€)</th>
             <th>Description</th>
             <th>Catégorie</th>
+            <th>Image</th>
             <th class="text-center">Actions</th>
 
             
@@ -91,16 +92,46 @@
 
                     {% else %}
 
-                        {{ ux_icon('lucide:cercle-off', {class: 'text-danger icon25'}) }}
+                        {{ ux_icon('lucide:circle-off', {class: 'text-danger icon25'}) }}
 
                     {% endif %}
 
                 </td>
 
+                {# <td>
 
-                
+                     {% if product.Image %}
+                        
+                        <img
+                            src="{{ asset('uploads/products/' product.image) }}"
 
-                <td>
+                    ux_icon('lucide:image-off', {class: 'text-danger icon25'}) }}
+                        
+                    {% endif %}
+
+                </td> #}
+
+
+            <td>
+
+                {% if product.image %}
+
+                    <img
+                        src="{{ asset('uploads/products/' ~ product.image) }}"
+                        alt="{{ product.title }}"
+                        width="80"
+                        class="img-thumbnail"
+                    >
+
+                {% else %}
+
+                    {{ ux_icon('lucide:image-off', {class: 'text-danger icon25'}) }}
+
+                {% endif %}
+            </td>
+
+                   
+                 
                     <a href="{{ path('app_product_show', {'id' : product.id }) }}" class="text-decoration-none">
                         {{ ux_icon('flowbite:file-lines-outline', {class: 'primary icon25'}) }}
                     </a>
@@ -126,7 +157,7 @@
                         onsubmit="return confirm('Etês vous sûr de vouloir supprimer ce produit ?')"
                     >
                         <button type= "submit" class="btnReset">
-                            {{ ux_icon('flowbite:trash-bin-solid', {class: 'text-primary icon25'}) }}>
+                            {{ ux_icon('flowbite:trash-bin-solid', {class: 'text-primary icon25'}) }}
                         </button>
                     </form> 
                 

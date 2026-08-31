@@ -10,7 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 /*  préfixe */
 #[Route('/produit')]
@@ -35,7 +36,6 @@ final class ProductController extends AbstractController
         
         */
 
-        // dd($products);
 
         return $this->render('product/index.html.twig', [
             'products' => $products
@@ -44,11 +44,15 @@ final class ProductController extends AbstractController
     }
 
     #[Route('/ajouter', name:'app_product_new')]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(
+        Request $request, 
+        EntityManagerInterface $entityManager,
+        SluggerInterface $slugger
+        ): Response
     {
         //Création de l'objet de la class Product (Entity)
         $product = new Product();
-        //dump($product);
+        
 
         /* Création du formulaire avec la méthode creatFrom (), provenant de Abstraction. */
         $form = $this->createForm(ProductType::class, $product);
@@ -56,61 +60,63 @@ final class ProductController extends AbstractController
         // traitement du formulaire
         $form->handleRequest($request);
 
-        if($form->isSubmitted()) {
-           // dump($form->isValid());
-        }
-            
-
-        /* condition
-         si le formulaire à été soumis 
-         si le formulaire à été validé  (respect des contraintes*/
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
 
-            //dump($request);
-            // dd($product);
+            // upload image
+                    
+            $imageFile = $form->get('image')->getData();
 
-            //Enregistrer en base de données
+            if ($imageFile) {
 
-            // persist => on renseigne quel objet on veut enregister
-            $entityManager->persist($product);
+                $originalFilename = pathinfo(
 
-            // flush => permet d'executer
-            $entityManager->flush();
+                    $imageFile->getClientOriginalName(),
 
-            //dd($product);
+                    PATHINFO_FILENAME
 
+                );
+                $safeFilename = $slugger->slug($originalFilename);
 
-            // noticication
-            /* 
-            AddFlashe() permet de créer une notification sur le front.
-            1e argument: le type (success, warning, error : ref _flashes.html.twig)
-            2 e argument : Message
-             */
-            $this->addFlash('success', 'Le produit a bien été ajouté');
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
 
-            /* flashes =[
-                'success' => [
+                try {
 
-                ],
-                'error' => []
-            ] */
+                    $imageFile->move(
 
+                        $this->getParameter('kernel.project_dir').'/public/uploads/products', $newFilename
+                                
+                            );
 
-            // Redirection == équivalent à la fonction twig path()
-            return $this->redirectToRoute('app_product_index');
+ 
+                } catch (FileException $e) {
+
+                }
+            
+            $product->setImage($newFilename);
 
         }
 
-        /* dd($form->createView()); */
-        return $this->render('product/new.html.twig', [
-            'formProduct' => $form->createView()
+        $entityManager->persist($product);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Le produit a bien été ajouté');
+
+        return $this->redirectToRoute('app_product_index');
+    }
+       
+
+        
+            return $this->render('product/new.html.twig', [
+                'formProduct' => $form->createView()
         ]);
             
-    }
+        }
 
     #[Route('/{id}', name:'app_product_show', methods:['GET'])]
+
     public function show(Product $product): Response
+    
     {
         // dump($product);
         return $this->render('product/show.html.twig', [
@@ -119,19 +125,20 @@ final class ProductController extends AbstractController
     }
     
     #[Route('/modifier/{id}', name:'app_product_edit')]
-    public function edit(Product $product, Request $request, EntityManagerInterface $entityManager): Response
-
+    public function edit(
+        Product $product,
+        Request $request,
+        EntityManagerInterface $entityManager, 
+        SluggerInterface $slugger
+    ): Response
     {
-        $form =$this->createForm(ProductType::class, $product);
+        $form = $this->createForm(ProductType::class, $product);
 
         $form->handleRequest($request);
+    
+        //if($form->isSubmitted() && $form->isValid()) {
+ 
 
-        if($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-            $this->addFlash('success', 'Le produit a bien été modifié');
-            return $this->redirectToRoute('app_product_index');
-        }
-        
         return $this->render('product/edit.html.twig', [
             'product' => $product,
             'formProduct' => $form
@@ -139,7 +146,9 @@ final class ProductController extends AbstractController
     }
 
     #[Route('/{id}', name:'app_product_delete', methods:['POST'])]
-    public function delete(Product $product, EntityManagerInterface $entityManager): Response
+    public function delete(Product $product,
+     EntityManagerInterface $entityManager
+     ): Response
 
     //   dd('Je suis bien sur la route delete');
     
@@ -147,9 +156,20 @@ final class ProductController extends AbstractController
       $entityManager->remove($product);
       $entityManager->flush();
       $this->addFlash('success', 'Le produit a bien été supprimé');
-      return $this->redirectToRoute('app_product_index');
+      return $this->redirectToRoute('app_product_index', [
+
+      ]);
     }
 
 
 }
+
+
+
+
+
+
+
+
+
 
