@@ -46,6 +46,30 @@
             {% endif %}
         </td>
     </tr>
+    
+   
+    <tr>
+        
+        <th>Image</th>
+        <td>
+
+            {% if product.image %}
+
+                <img
+                    src="{{ asset('uploads/products/' ~ product.image) }}"
+                    class="img-thumbnail"
+                >
+            {% else %}
+
+                {{ ux_icon('lucide:image-off', {class: 'text-danger icon25'}) }}
+
+            {% endif %}
+
+        </td>
+    </tr>
+
+
+    
 
 </table>
 
