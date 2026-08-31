@@ -136,8 +136,15 @@ final class ProductController extends AbstractController
 
         $form->handleRequest($request);
     
-        //if($form->isSubmitted() && $form->isValid()) {
- 
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Le produit a bien été modifié');
+
+            return $this->redirectToRoute('app_product_index');
+        }
 
         return $this->render('product/edit.html.twig', [
             'product' => $product,
