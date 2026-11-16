@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Inscription{% endblock %}
+{% block description %}{{ parent() }} | Inscription{% endblock %}
+{% block keywords %}{{ parent() }} | Inscription{% endblock %}
+
+{% block h1 %}Inscription{% endblock %}
+
+{% block body %}
+
+    {{ form_errors(registrationForm) }}
+
+    {{  form_start(registrationForm, {
+          'attr': {
+             'class':'bg-white col-md-6 mx-auto p-4 border border-2 border-gold'
+        }
+    }) }}
+
+        {{ form_row(registrationForm.email) }}
+        {{ form_row(registrationForm.plainPassword, {
+            label: 'Password'
+        }) }}
+        {{ form_row(registrationForm.firstName) }}
+        {{ form_row(registrationForm.lastName) }}
+        {{ form_row(registrationForm.agreeTerms) }}
+
+        <button type="submit" class="btn btn-dark w-100">
+            S'enregister
+        </button>
+    {{ form_end(registrationForm) }}
+{% endblock %}

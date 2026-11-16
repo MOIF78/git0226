@@ -7,5 +7,73 @@
 {% block h1 %}Catalogue{% endblock %}
     
 {% block body %}
+
+<div class="row">
+
+    {% for product in products %}
+
+        <div class="col-md-4 mb-4">
+
+            <div class="card h-100 shadow">
+
+                {% if product.image %}
+                    
+                    <img
+
+                        src="{{ asset('uploads/products/' ~ product.image) }}"
+                        class="card-img-top"
+                        alt="{{ product.title }}"
+                    >
+
+                {% endif %}
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        {{ product.title|capitalize }}
+                    </h5>
+
+                    <p class="card-text">
+                        {{ product.category.title }}
+                    </p>
+
+
+                    <p class="fw-bold text-primary">
+                        {{ product.price }} €
+                    </p>
+
+                    <a href="{{ path('app_product_show', {'id' : product.id})
+                     }}"
+                    
+                        class="btn btn-dark">
+                        
+                        Voir le produit   
+                    
+
+                    </a>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    {% else %}   
+
+        <div class="col-12">
+             <p class="text-center text-info">
+                Aucun produit disponible
+            </p>
+
+        </div>
+
+    {% endfor %}          
+ 
+
+   
+ 
+    </div>
+
     
 {% endblock %}

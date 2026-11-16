@@ -132,7 +132,7 @@ class ProductType extends AbstractType
             ]) 
          
             ->add('category', EntityType::class, [ // propriété relationnelle
-                'class' => Category::class, // relation avec quel class (entitie)
+                'class' => Category::class, // relation avec quel class (entity)
                  //'choice_label' => 'title',  // nom de la propriété dans la class
 
                 /* 'multiple' => true  // obligatoir pour la relation ManyToMany */

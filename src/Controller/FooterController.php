@@ -20,12 +20,6 @@ final class FooterController extends AbstractController
         return $this->render('footer/cgv.html.twig', []);
     }
 
-    #[Route('/recrutement', name: 'app_recruitment', methods: ['GET', 'POST'])]
-    public function recruitment(): Response
-    {
-        return $this->render('footer/recruitement.html.twig', []);
-    }
-
     #[Route('/nous-contacter', name: 'app_contact', methods: ['GET', 'POST'])]
     public function index(): Response
     {

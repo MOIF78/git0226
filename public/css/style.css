@@ -27,12 +27,16 @@ h1,h2{
     width: 100px;
 }
 
+.w120px{
+    width: 120px;
+}
+
 .text-gold{
     color: var(--color-gold);
 }
 
-.text-slate-gray{
-    color: var(--color-slate-gray);
+.text-gold:hover, .navbar-nav .nav-link.active, .navbar-nav .nav-link.show{
+    color: white;
 }
 
 .dropdown-menu[data-bs-popper] {
@@ -49,7 +53,7 @@ h1,h2{
 }
 main{
     min-height: 75vh;
-    /* background-color: var(--color-gold) */
+     /* background-color: var(--color-gold)  */
     
 }
 footer{
@@ -98,9 +102,33 @@ footer{
     text-transform: uppercase;
 }
 
+.btn-slate-gray:hover{
+    background-color: var(--color-gold)
+}
 
+.border-2{
+    border-width: 2px;
+}
 
+.border-blak{
+    border-color: var(--color-black)!important;
+}
 
+.form-control:focus{
+    color: var(--color-black);
+    background-color: white;
+    border-color: var(--color-gold);
+    box-shadow: none;
+}
+
+.form-control:focus::placeholder{
+    color: var(--color-black);   
+}
+
+.card-img-top{
+    aspect-ratio: 1/1;
+    object-fit: cover;
+}
 
 
 

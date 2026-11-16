@@ -49,7 +49,16 @@
         
            <tr>
                 <td>{{ product.id }}</td>
-                <td>{{ product.title|capitalize }}</td>
+                <td>
+                    {% if product.title %}
+                        {{ product.title|capitalize }}
+                    {% else %}
+                        {{ ux_icon('lucide:circle-off', {class: 'text-danger icon25'}) }}  
+                    {% endif %}
+                    
+                
+
+                </td>
                 <td>{{ product.price }}</td>
                 <td>
                     {% if product.description %}
@@ -86,9 +95,10 @@
                 </td>
                 #}
 
-                {% if product.category %}
-
-                        {{ product.category.title }}
+                    {% if product.category %}
+                        <a href="{{ path('app_category_show', {'id' : product.category.id }) }}"> 
+                            {{ product.category.title }}
+                        </a>
 
                     {% else %}
 
