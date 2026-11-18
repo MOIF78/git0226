@@ -4,15 +4,25 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Repository\UserRepository;
+use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
 {
+    public function __construct(private EmailVerifier $emailVerifier)
+    {
+    }
+
     #[Route('/inscription', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
@@ -24,14 +34,28 @@ class RegistrationController extends AbstractController
             /** @var string $plainPassword */
             $plainPassword = $form->get('plainPassword')->getData();
 
-            // encode the plain password
+            
+            //Hachage du mot de passe
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
 
+            //Enregistrement de l'utilisateur en base de données
             $entityManager->persist($user);
             $entityManager->flush();
             $this->addFlash('success', 'Votre compte a bien été créé');
 
-            // do anything else you need here, like send an email
+
+           // Génération du lien de confirmation et envoi par e-mail à l'utilisateur
+            $this->emailVerifier->sendEmailConfirmation(
+                'app_verify_email', 
+                $user, 
+                (new TemplatedEmail())
+                ->from(new Address('no-reply@parfum.fr', 'Parfum No Reply'))
+                ->to((string) $user->getEmail())
+                ->subject('Veuillez confirmer votre email')
+                ->htmlTemplate('registration/confirmation_email.html.twig')
+            );
+
+            $this->addFlash('success', 'Inscription réussi, un lien de confirmation a été envoyé sur votre boite e-mail');
 
             return $this->redirectToRoute('app_login');
         }
@@ -40,4 +64,38 @@ class RegistrationController extends AbstractController
             'registrationForm' => $form,
         ]);
     }
-}
+
+    #[Route('/verify/email', name:'app_verify_email')]
+    public function verifyUserEmail(Request $request, TranslatorInterface $translator, UserRepository $userRepository): Response 
+    {
+        $id = $request->query->get('id');
+
+        if (null === $id) {
+            return $this->redirectToRoute('app_register');
+        }
+
+        $user = $userRepository->find($id);
+
+        if (null === $user) {
+            return $this->redirectToRoute('app_register');
+        }
+
+        //Vérification du lien de confirmation de l'adresse e-mail
+        try {
+            $this->emailVerifier->handleEmailConfirmation($request, $user);
+        } catch (VerifyEmailExceptionInterface $exception) {
+            $this->addFlash('verify_email_error', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
+
+            return $this->redirectToRoute('app_register');
+        }
+
+        //Redirection après confirmation de l'e-mail
+         $this->addFlash(
+            'success',
+                'Votre compte a bien été vérifié.'
+            );
+
+            return $this->redirectToRoute('app_login');
+        }
+
+}    

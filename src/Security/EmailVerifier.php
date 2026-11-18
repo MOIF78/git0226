@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
+use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
 class EmailVerifier
@@ -40,13 +41,12 @@ class EmailVerifier
         $this->mailer->send($email);
     }
 
-    public function handleEmailConfirmation(
-        Request $request,
-        User $user
-    ): void {
-        $this->verifyEmailHelper->validateEmailConfirmationFromRequest(
-            $request,
-            (string) $user->getId(),
+    /**
+     * @throws VerifyEmailExceptionInterface
+     */
+    public function handleEmailConfirmation(Request $request, User $user): void 
+        {
+        $this->verifyEmailHelper->validateEmailConfirmationFromRequest($request, (string) $user->getId(),
             (string) $user->getEmail()
         );
 

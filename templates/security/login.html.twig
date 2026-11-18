@@ -14,7 +14,7 @@
             {{ dump(error) }}
         </pre>
         {% if error.line == 67 or error.line == 254 %}
-            <div class="alert alert-danger text-center">L'identité ou le mot de passe est incorrect</div>
+            <div class="alert alert-danger text-center">L'identifiant ou le mot de passe est incorrect</div>
         {% else %}
             <div class="alert alert-danger text-center">{{ error.messageKey|trans(error.messageData, 'security') }}</div>  
         {% endif %}
