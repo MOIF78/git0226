@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block h1 %}Accueil{% endblock %}
+
+{% block stysheets %}
+    <link rel="stlesheet" href="{{ asset('css/home.css') }}">
+{% endblock %}
+
+{% block body %}
+
+    <pre>
+        {{ dump(app.user) }}
+    </pre>
+
+    <h2 class="text-center my-2">
+        Bonjour
+        {% if app.user %}
+             {{ app.user.firstName }}
+        {% else %}
+            Bonjour
+        {% enfif %}    
+    </h2>
+    
+    {#  <h2 class="text-center my-2">Bonjour {{ firstNameTwig }}</h2>#}
+    <img class="imgHome" src="{{ asset('images/home.jpg') }}" alt="">
+{% endblock %}

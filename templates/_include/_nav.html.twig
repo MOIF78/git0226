@@ -9,18 +9,26 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
     
-        <li class="nav-item">
-          <a class="nav-link" href="{{ path('app_catalog') }}">Catalogue</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ path('app_product_index') }}">Gestion des Produits</a>
-        </li>
 
-        <li class="nav-item">
-          <a class="nav-link" href="{{ path('app_category_index') }}">Gestion des Catégories</a>
-        </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="{{ path('app_catalog') }}">
+            Catalogue
+        </a>
+    </li>
+  
+        
+        
         </ul>
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+
+          {% if app.user %}
+      <li class="nav-item">
+        <a class="nav-link" href="{{ path('app_profile') }}">
+          <i class="bi bi-person-circle"></i>
+</a>
+        </li>
+    {% endif %}
         
         {% if app.user %} 
 
@@ -30,8 +38,8 @@
             {{ app.user.firstName }}
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="#">Mon compte</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><a class="dropdown-item" href="{{ path('app_profile') }}">Mon espace client</a></li>
+            <li><a class="dropdown-item" href="{{ path('app_admin') }}">Administration</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="{{ path('app_logout') }}">Déconnexion</a></li>
           </ul>

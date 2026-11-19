@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte{% endblock %}
+{% block h1 %}Mon compte{% endblock %}
+
+{% block body %}
+<ul class="list-group col-md-6 mx-auto mt-3">
+  <li class="list-group-item">Email : {{ app.user.email }} </li>
+  <li class="list-group-item">Nom : {{ app.user.FirstName }} </li>
+  <li class="list-group-item">Prénom : {{ app.user.LastName }}</li>
+</ul>
+{% endblock %}

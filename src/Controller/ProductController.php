@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 /*  préfixe */
-#[Route('/produit')]
+#[Route('/admin/produit')]
 final class ProductController extends AbstractController
 
 {
