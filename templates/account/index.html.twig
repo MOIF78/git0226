@@ -1,5 +1,80 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Mon espace client{% endblock %}
+
+{% block h1 %}Mon espace client{% endblock %}
+
+{% block body %}
+
+<div class="container mt-4">
+
+    <div class="list-group shadow">
+
+        <a href="{{ path('app_profile') }}"
+            class="list-group-item list-group-item-action">
+                <i class="bi bi-person-circle"></i> Mes informations
+        </a>
+
+        <a href="#"
+            class="list-group-item list-group-item-action">
+                <i class="bi bi-geo-alt"></i> Mes adresses
+        </a>
+
+        <a href="#"
+            class="list-group-item list-group-item-action">
+                <i class="bi bi-box-seam"></i> Mes commandes
+        </a>
+
+        <a href="{{ path('app_cart') }}"
+            class="list-group-item list-group-item-action">
+                <i class="bi bi-cart3"></i> Mon panier
+        </a>
+
+        {# <a href="{{ path('app_profile') }}"
+           class="list-group-item list-group-item-action">
+            👤 Mes informations
+        </a>
+
+        <a href="#"
+           class="list-group-item list-group-item-action">
+            📍 Mes adresses
+        </a>
+
+        <a href="#"
+           class="list-group-item list-group-item-action">
+            📦 Mes commandes
+        </a>
+
+        <a href="{{ path('app_cart') }}"
+           class="list-group-item list-group-item-action">
+            🛒 Mon panier
+        </a> #}
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{# {% extends 'base.html.twig' %}
+
 {% block title %}Hello AccountController!{% endblock %}
 
 {% block body %}
@@ -18,3 +93,5 @@
     </ul>
 </div>
 {% endblock %}
+ #}
+

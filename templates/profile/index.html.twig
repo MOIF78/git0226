@@ -20,12 +20,23 @@
       </li>
     
     </ul>
+
+    <div class="text-center mt-3">
+        <a href="{{ path('app_account') }}"
+       class="btn btn-outline-secondary">
+        ← Retour à mon espace client
+        </a>
+    </div>
   
   {% else %}
     <div class="alert alert-warning">
         Vous devez être connecté pour accéder à votre espace.
     </div>
+
+        
   
   {% endif %}
+
+      
 
 {% endblock %}
