@@ -20,6 +20,8 @@ security:
             lazy: true
             provider: app_user_provider
             custom_authenticator: App\Security\EmailAuthenticator
+            user_checker: App\Security\UserChecker
+            
             
             
             logout: 

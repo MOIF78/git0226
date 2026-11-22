@@ -33,7 +33,7 @@ class RegistrationFormType extends AbstractType
                     'message' => 'Veuillez saisir une adresse email valide'
                 ]),
                     new NotBlank([
-                    'message' => 'Veuillez saisir une adresse email'
+                    'message' => 'Veuillez saisir une adresse email conforme'
                     ]),
                 ],
              
@@ -74,30 +74,11 @@ class RegistrationFormType extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new IsTrue([
-                        'message' => 'Vous devez accepter les conditions générales d\'utilisation du site',
+                        'message' => 'Veuillez accepter les conditions générales d\'utilisation du site',
                     ]),
                 ],
             ])
-            /* ->add('plainPassword', PasswordType::class, [
-                // instead of being set onto the object directly,
-                // this is read and encoded in the controller
-                'mapped' => false,
-                'label' => 'Mot de passe<span class="text-gold">*</span>',
-                'label_html' => true,
-                'required' => false,
-                'attr' => ['autocomplete' => 'new-password'],
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Veuillez saisir un mot de passe',
-                    ]),
-                    new Regex([
-                       
-                       'pattern' => '/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_?.]).{12,}$/',
-                        'message' => 'Le mot de passe doit contenir au moins 12 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.',
-                    ]),
-                    
-                ],
-            ]); */
+            
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
 

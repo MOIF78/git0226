@@ -7,7 +7,7 @@
 {% block h1 %}Connexion{% endblock %}
 
 {% block body %}
-<form method="post" class="bg-white col-md-6 mx-auto p-4 border border-2 border-gold">
+    <form method="post" class="bg-white col-md-6 mx-auto p-4 border border-2 border-gold">
 
     {% if error %}
         <pre>
@@ -28,49 +28,55 @@
         </div>
     {% endif %}
 
-    
-    <label class="my-1" for="inputEmail">Email<span class="text-gold">*</span></label>
+        <div class="my-2">
+            <label class="my-1" for="inputEmail">Email<span class="text-gold">*</span></label>
 
-    <input
-    type="email" value="{{ last_username }}"
-    name="email"
-    id="inputEmail"
-    class="form-control" 
-    autocomplete="off" 
-    placeholder="Saisir votre adresse email"
-    required 
-    autofocus>
+            <input
+                type="email" 
+                value="{{ last_username }}"
+                name="email"
+                id="inputEmail"
+                class="form-control" 
+                autocomplete="email" 
+                placeholder="Saisir votre adresse email"
+                required 
+                autofocus
+            >
+        </div>
 
+        <div class="my-2">
 
-    <label class="mt-2 mb-1" for="inputPassword">Mot de passe<span class="text-gold">*</span> </label>
-    <input 
-    type="password" 
-    name="password" 
-    id="inputPassword" 
-    class="form-control" 
-    autocomplete="current-password" 
-    placeholder="Saisir votre mot de passe email"
-    required>
+            <label class="mt-2 mb-1" for="inputPassword">Mot de passe<span class="text-gold">*</span> </label>
+            <input 
+                type="password" 
+                name="password" 
+                id="inputPassword" 
+                class="form-control" 
+                autocomplete="current-password" 
+                placeholder="Saisir votre mot de passe email"
+                required
+            >
+        </div>
+                <input 
+                type="hidden" 
+                name="_csrf_token" 
+                data-controller="csrf-protection" 
+                value="{{ csrf_token('authenticate') }}">
 
-    <input 
-    type="hidden" 
-    name="_csrf_token" 
-    data-controller="csrf-protection" 
-    value="{{ csrf_token('authenticate') }}">
-
-    <div class="checkbox my-3">
-        <label>
-            <input type="checkbox" name="_remember_me"> Se souvenir de moi
-        </label>
-    </div>
-
-    <a href="{{ path('app_forgot_password_request')}}">Mot de passe oublié ?</a>
-
-    <a href="{{ path('app_register')}}">S'inscrire ?</a>
-
-
-    <button class="btn btn-dark w-100 pt-2" type="submit">Se connecter</button>
         
+        <div class="checkbox my-3">
+            <label>
+                <input type="checkbox" name="_remember_me"> Se souvenir de moi
+            </label>
+        </div>
+
+        <a href="{{ path('app_forgot_password_request')}}">Mot de passe oublié ?</a>
+        <br>
+        <a href="{{ path('app_register')}}">S'inscrire ?</a>
+
+
+        <button class="btn btn-dark w-100 pt-2" type="submit">Se connecter</button>
+            
     
-</form>
+    </form>
 {% endblock %}

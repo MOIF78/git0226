@@ -149,8 +149,11 @@ footer{
     object-fit: cover;
 }
 
-
-
+.price{
+    color: var(--color-gold);
+    font-weight: 700;
+    font-size: 1.25rem;
+}
 
 
 
