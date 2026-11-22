@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes adresses{% endblock %}
+
+{% block h1 %}Mes adresses{% endblock %}
+
+{% block body %}
+
+<div class="alert alert-info text-center">
+
+    Aucune adresse enregistrée pour le moment.
+
+</div>
+
+<div class="text-center mt-3">
+
+    <a href="{{ path('app_account') }}"
+       class="btn btn-outline-secondary">
+        ← Retour à mon espace client
+    </a>
+
+</div>
+
+{% endblock %}
