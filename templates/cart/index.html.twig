@@ -14,74 +14,71 @@
 
             {% for item in cart.cartItems %}
 
-    <li class="list-group-item d-flex justify-content-between align-items-center">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
 
-        <div>
+                    <div>
 
-            <strong>{{ item.product.title }}</strong>
+                        <strong>{{ item.product.title }}</strong>
 
-            -  {{ item.product.price }} €
+                        - {{ item.product.price }} €
 
-            - Quantité : {{ item.quantity }}
+                        - Quantité : {{ item.quantity }}
+
+                    </div>
+
+                    <a
+                        href="{{ path('app_cart_delete', {'id': item.id}) }}"
+                        class="btn btn-danger btn-sm"
+                    >
+                        Supprimer
+                    </a>
+
+                </li>
+
+            {% endfor %}
+
+        </ul>
+
+        <div class="mt-3">
+            <h4>Total : {{ total }} €</h4>
+        </div>
+
+        <div class="mt-3">
+
+            <a
+                href="{{ path('app_cart_clear') }}"
+                class="btn btn-danger"
+            >
+                Vider le panier
+            </a>
+
+            <a
+                href="{{ path('app_order_validate') }}"
+                class="btn btn-success ms-2"
+            >
+                Valider ma commande
+            </a>
 
         </div>
 
-        <a
-            href="{{ path('app_cart_delete', {'id': item.id}) }}"
-            class="btn btn-danger btn-sm"
-        >
-            Supprimer
-        </a>
+    {% else %}
 
-    </li>
+        <div class="alert alert-info">
 
-        {% endfor %}
+            Votre panier est vide.
 
-    </ul>
+        </div>
 
-    <div class="mt-3">
-        <h4>Total : {{ total }} €</h4>
-    </div>
-
-    <div class="mt-3">
-
-        <a
-            href="{{ path('app_cart_clear') }}"
-            class="btn btn-danger"
-        >
-            Vider le panier
-        </a>
-
-    </div>  
-
-{% else %}
-
-    <div class="alert alert-info">
-
-        Votre panier est vide.
-    <div class="mt-3">
-
-    <a
-        href="{{ path('app_cart_clear') }}"
-        class="btn btn-danger"
-    >
-        Vider le panier
-    </a>
-
-    </div>
-    
-    </div>
-
-{% endif %}
+    {% endif %}
 
     <div class="text-center mt-3">
 
-    <a href="{{ path('app_account') }}"
-       class="btn btn-outline-secondary">
-        ← Retour à mon espace client
-    </a>
+        <a href="{{ path('app_account') }}"
+           class="btn btn-outline-secondary">
+            ← Retour à mon espace client
+        </a>
 
-</div>
+    </div>
 
 </div>
 
