@@ -30,7 +30,7 @@ final class OrderController extends AbstractController
     public function validateOrder(
         EntityManagerInterface $entityManager
     ): Response
-    {
+    {   
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
 
@@ -80,6 +80,17 @@ final class OrderController extends AbstractController
 
         return $this->redirectToRoute('app_order');
     }
+
+    #[Route('/order/{id}', name: 'app_order_show')]
+    public function show(Order $order): Response
+    {
+        return $this->render('order/show.html.twig', [
+            'order' => $order,
+        ]);
+    }
+
+    
+    
 }
 
 

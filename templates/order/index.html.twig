@@ -30,6 +30,15 @@
 
                     Montant : {{ order.totalAmount }} €
 
+                    <br><br>
+
+                    <a
+                        href="{{ path('app_order_show', {'id': order.id}) }}"
+                        class="btn btn-primary btn-sm"
+                    >
+                        Voir le détail
+                    </a>
+
                 </li>
 
             {% endfor %}
@@ -57,4 +66,4 @@
 
 </div>
 
-{% endblock %}   
+{% endblock %}

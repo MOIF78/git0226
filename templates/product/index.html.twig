@@ -74,26 +74,7 @@
                 </td>
 
                 
-                    {# <pre>
-                        {{ dump(products) }}
-                    </pre>  #}
-        
-                     {# {{ product.category.title }} #} 
-
-                <td>
-
-                    {# {% if product.category is not null %}
-
-                        {{ product.category.title }}
-
-                    {% else %}
-
-                        <span class='text-danger'>Aucune catégorie</span>
-
-                    {% endif %}
-
-                </td>
-                #}
+                   
 
                     {% if product.category %}
                         <a href="{{ path('app_category_show', {'id' : product.category.id }) }}"> 
@@ -108,32 +89,20 @@
 
                 </td>
 
-                {# <td>
+                
 
-                     {% if product.Image %}
-                        
+                <td>
+
+                    {% if product.image %}
+
                         <img
-                            src="{{ asset('uploads/products/' product.image) }}"
-
-                    ux_icon('lucide:image-off', {class: 'text-danger icon25'}) }}
-                        
-                    {% endif %}
-
-                </td> #}
-
-
-            <td>
-
-                {% if product.image %}
-
-                    <img
-                        src="{{ asset('uploads/products/' ~ product.image) }}"
-                        alt="{{ product.title }}"
-                        width="80"
-                        class="img-thumbnail"
+                            src="{{ asset('uploads/products/' ~ product.image) }}"
+                                alt="{{ product.title }}"
+                                width="80"
+                                class="img-thumbnail"
                     >
 
-                {% else %}
+                   {% else %}
 
                     {{ ux_icon('lucide:image-off', {class: 'text-danger icon25'}) }}
 
@@ -150,15 +119,7 @@
                        {{ ux_icon('flowbite:edit-solid', {class: 'text-gray icon25'}) }} 
                     </a> 
 
-                    {# {{ ux_icon('user-profile', {class: 'w-4 h-4'}) }} #}
-
-                  {#    <a 
-                     href="{{ path('app_product_delete', {'id' : product.id }) }}" 
-                    class="text-decoration-none"
-                    onclick="return confirm('Etês vous sûr de vouloir supprimer ce produit ?')"
-                    >
-                      {{ ux_icon('flowbite:trash-bin-solid', {class: 'text-gray icon25'}) }}  
-                    </a>  #}
+                    
 
                     <form 
                         action="{{ path('app_product_delete', {'id' : product.id }) }}"
