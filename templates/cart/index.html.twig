@@ -8,11 +8,35 @@
 
 <div class="container mt-4">
 
+    {% if cart and cart.cartItems|length > 0 %}
+
+        <ul class="list-group">
+
+            {% for item in cart.cartItems %}
+
+            <li class="list-group-item">
+
+                <strong>{{ item.product.title }}</strong>
+
+                - {{ item.product.price }} €
+
+                - Quantité : {{ item.quantity }}
+
+            </li>
+
+        {% endfor %}
+
+    </ul>
+
+{% else %}
+
     <div class="alert alert-info">
 
-        Votre panier est en cours de développement.
+        Votre panier est vide.
 
     </div>
+
+{% endif %}
 
     <div class="text-center mt-3">
 

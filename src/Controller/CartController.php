@@ -14,19 +14,74 @@ final class CartController extends AbstractController
 {
     #[Route('/cart', name: 'app_cart')]
     public function index(): Response
-    {
-        return $this->render('cart/index.html.twig', [
-            'controller_name' => 'CartController',
-        ]);
-    }
+{
+    /** @var \App\Entity\User $user */
+    $user = $this->getUser();
+
+    $cart = $user?->getCart();
+
+    return $this->render('cart/index.html.twig', [
+        'cart' => $cart,
+    ]);
+}
 
     #[Route('/cart/add/{id}', name: 'app_cart_add')]
     public function add(
-        Product $product,
-        EntityManagerInterface $entityManager
-        ): Response
+    Product $product,
+    EntityManagerInterface $entityManager
+    ): Response
 {
-         dd($product);
+    /** @var \App\Entity\User $user */
+    $user = $this->getUser();
+
+    if (!$user) {
+        return $this->redirectToRoute('app_login');
+    }
+
+    $cart = $user->getCart();
+
+    if (!$cart) {
+
+        $cart = new Cart();
+
+        $cart->setUser($user);
+
+        $cart->setCreatedAt(new \DateTimeImmutable());
+
+        $cart->setStatus('active');
+
+        $entityManager->persist($cart);
+    }
+
+    foreach ($cart->getCartItems() as $item) {
+
+        if(
+            $item->getProduct()->getId()
+            ===
+            $product->getId()
+        ) {
+            $item->setQuantity(
+                $item->getQuantity() + 1
+        );
+
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_cart');
+        }
+
+    }
+
+    $cartItem = new CartItem();
+
+    $cartItem->setCart($cart);
+
+    $cartItem->setProduct($product);
+
+    $cartItem->setQuantity(1);
+
+    $entityManager->persist($cartItem);
+
+    $entityManager->flush();
 
     return $this->redirectToRoute('app_cart');
 }
