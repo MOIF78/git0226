@@ -110,4 +110,27 @@ public function delete(
 
     return $this->redirectToRoute('app_cart');
 }
+
+#[Route('/cart/clear', name: 'app_cart_clear')]
+public function clear(
+    EntityManagerInterface $entityManager
+): Response
+{
+    /** @var \App\Entity\User $user */
+    $user = $this->getUser();
+
+    $cart = $user?->getCart();
+
+    if ($cart) {
+
+        foreach ($cart->getCartItems() as $item) {
+
+            $entityManager->remove($item);
+        }
+
+        $entityManager->flush();
+    }
+
+    return $this->redirectToRoute('app_cart');
+}
 }
