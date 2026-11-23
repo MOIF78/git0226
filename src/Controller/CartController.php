@@ -20,8 +20,20 @@ final class CartController extends AbstractController
 
     $cart = $user?->getCart();
 
+    $total = 0;
+
+    if ($cart) {
+
+        foreach ($cart->getCartItems() as $item) {
+
+            $total += $item->getProduct()->getPrice()
+                * $item->getQuantity();
+        }
+    }
+
     return $this->render('cart/index.html.twig', [
         'cart' => $cart,
+        'total' => $total,
     ]);
 }
 
@@ -80,6 +92,19 @@ final class CartController extends AbstractController
     $cartItem->setQuantity(1);
 
     $entityManager->persist($cartItem);
+
+    $entityManager->flush();
+
+    return $this->redirectToRoute('app_cart');
+}
+
+#[Route('/cart/delete/{id}', name: 'app_cart_delete')]
+public function delete(
+    CartItem $cartItem,
+    EntityManagerInterface $entityManager
+): Response
+{
+    $entityManager->remove($cartItem);
 
     $entityManager->flush();
 
