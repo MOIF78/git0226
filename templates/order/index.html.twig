@@ -6,19 +6,55 @@
 
 {% block body %}
 
-<div class="alert alert-info text-center">
+<div class="container mt-4">
 
-    Aucune commande enregistrée pour le moment.
+    {% if orders|length > 0 %}
+
+        <ul class="list-group">
+
+            {% for order in orders %}
+
+                <li class="list-group-item">
+
+                    <strong>Commande #{{ order.id }}</strong>
+
+                    <br>
+
+                    Date : {{ order.createdAt|date('d/m/Y H:i') }}
+
+                    <br>
+
+                    Statut : {{ order.status }}
+
+                    <br>
+
+                    Montant : {{ order.totalAmount }} €
+
+                </li>
+
+            {% endfor %}
+
+        </ul>
+
+    {% else %}
+
+        <div class="alert alert-info text-center">
+
+            Aucune commande enregistrée pour le moment.
+
+        </div>
+
+    {% endif %}
+
+    <div class="text-center mt-3">
+
+        <a href="{{ path('app_account') }}"
+           class="btn btn-outline-secondary">
+            ← Retour à mon espace client
+        </a>
+
+    </div>
 
 </div>
 
-<div class="text-center mt-3">
-
-    <a href="{{ path('app_account') }}"
-       class="btn btn-outline-secondary">
-        ← Retour à mon espace client
-    </a>
-
-</div>
-
-{% endblock %}    
+{% endblock %}   
