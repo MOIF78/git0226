@@ -70,7 +70,7 @@ final class CategoryController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_category_delete', methods: ['POST'])]
+   /*  #[Route('/{id}', name: 'app_category_delete', methods: ['POST'])]
     public function delete(Request $request, Category $category, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$category->getId(), $request->getPayload()->getString('_token'))) {
@@ -81,6 +81,29 @@ final class CategoryController extends AbstractController
             $this->addFlash('error', 'Vous ne pouvez pas supprimer cette catégorie');
         }
 
+
         return $this->redirectToRoute('app_category_index', [], Response::HTTP_SEE_OTHER);
+    } */
+
+    #[Route('/{id}', name: 'app_category_delete', methods: ['POST'])]
+public function delete(Request $request, Category $category, EntityManagerInterface $entityManager): Response
+{
+    if ($this->isCsrfTokenValid('delete'.$category->getId(), $request->getPayload()->getString('_token'))) {
+
+        // On bloque la suppression si la catégorie contient des produits
+        if (!$category->getProducts()->isEmpty()) {
+            $this->addFlash('error', 'Impossible de supprimer cette catégorie : elle contient des produits.');
+            return $this->redirectToRoute('app_category_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        $entityManager->remove($category);
+        $entityManager->flush();
+        $this->addFlash('success', 'La catégorie a bien été supprimée');
+    } else {
+        $this->addFlash('error', 'Token invalide, vous ne pouvez pas supprimer cette catégorie');
     }
+
+    return $this->redirectToRoute('app_category_index', [], Response::HTTP_SEE_OTHER);
+}
+    
 }

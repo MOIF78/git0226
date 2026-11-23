@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ product.title }}{% endblock %}
+
+{% block h1 %}{{ product.title }}{% endblock %}
+
+{% block body %}
+
+<div class="container">
+
+    {% if product.image %}
+        
+    <div class="text-center">
+
+        <img
+            src="{{ asset('uploads/products/' ~ product.image) }}"
+            alt="{{ product.title }}"
+            class="img-thumbnail mb-3"
+            style="max-width: 350px;"
+        >
+
+    </div>
+    
+
+    {% endif %}
+
+    <h3>{{ product.title }}</h3>
+
+    <p class="fw-bold text-primary">
+        {{ product.price }} €
+    </p>
+
+    <a href="{{ path('app_cart_add', {'id': product.id}) }}"
+        class="btn btn-primary mb-3">
+            <i class="bi bi-cart3"></i>
+                Ajouter au panier
+    </a>
+
+
+    <p>
+        {{ product.description }}
+    </p>
+
+    <a href="{{ path('app_catalog') }}"
+       class="btn btn-outline-secondary">
+            ← Retour au catalogue
+    </a>
+
+</div>
+
+{% endblock %}
